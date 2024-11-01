@@ -28,7 +28,7 @@ API 명세서
 }
 ```
 2. 전체 일정 조회
-- 요청(request) : X
+- 요청(request) : POST /api/scedules
 - 응답(response)
 ```
 {
