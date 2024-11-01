@@ -8,8 +8,8 @@ API 명세서
 | 일정 등록 | POST | /api/schedules  | 요청 body | 등록 정보 | 200 OK, 400 비정상 값 |
 | 전체 일정 조회 | GET | /api/schedules |  | 다건 응답 정보 | 200 OK |
 | 선택 일정 조회 | GET | /api/schedules/{schedules_id} | 요청 param(id) | 단건 응답 정보 | 200 OK |
-| 일정 수정 | PUT | /api/schedules/{schedules_id}  | 요청 param(id), 요청 body | 수정 정보 | 200 OK, 400 비정상 값 |
-| 일정 삭제 | DELETE | /api/schedules/{schedules_id}  | 요청 param(id) | 삭제 정보 | 200 OK, 404 선택한 일정이 사라짐 |
+| 일정 수정 | PUT | /api/schedules/{schedules_id}  | 요청 param(id), 요청 body | 수정 정보 | 200 OK, 400 비정상 값, 403 비밀번호 틀림 |
+| 일정 삭제 | DELETE | /api/schedules/{schedules_id}  | 요청 param(id) | 삭제 정보 | 200 OK, 403 비밀번호 틀림, 404 선택한 일정이 사라짐 |
 
 1. 일정등록
   - 요청(request) : POST /api/scedules
@@ -82,6 +82,12 @@ API 명세서
 ```
 5. 일정 삭제
 - 요청(request) : DELETE /api/scedules/{schedule_id}
+```
+{
+    "schedule_id": "1",
+    "password" : "123123"
+}
+```
 - 응답(response)
 ```
 {
