@@ -5,18 +5,96 @@ API 명세서
 
 | 기능 | Method | **URL** | **request** | **response** | **상태코드** |
 | --- | --- | --- | --- | --- | --- |
-| 일정 등록 | POST | /api/schedules  | 요청 body <br> {<br>'UserName'<br>'Password'<br>'Title'<br>'Content'<br>} | 등록 정보 | 200 OK, 400 비정상 값 |
+| 일정 등록 | POST | /api/schedules  | 요청 body | 등록 정보 | 200 OK, 400 비정상 값 |
 | 전체 일정 조회 | GET | /api/schedules |  | 다건 응답 정보 | 200 OK |
 | 선택 일정 조회 | GET | /api/schedules/{schedules_id} | 요청 param(id) | 단건 응답 정보 | 200 OK |
 | 일정 수정 | PUT | /api/schedules/{schedules_id}  | 요청 param(id), 요청 body | 수정 정보 | 200 OK, 400 비정상 값 |
 | 일정 삭제 | DELETE | /api/schedules/{schedules_id}  | 요청 param(id) | 삭제 정보 | 200 OK, 404 선택한 일정이 사라짐 |
 
+1. 일정등록
+  - 요청(request) : POST /api/scedules
+  ```
+{
+	"userName":"고강혁",
+	"password" : "123123"
+	"title" : "일정1",
+	"content" : "공부"
+}
+  ```
+  - 응답(response)
+```
+{
+  "schedule_id" : "1"
+}
+```
+2. 전체 일정 조회
+- 요청(request) : X
+- 응답(response)
+```
+{
+  "schedules" :[ {
+    "schedule_id": "1",
+    "userName" : "고강혁"
+    "title" : "일정1",
+    "content" : "공부",
+    "createDate":"2024-11-01 12:22:10",
+    "updateDate":"2024-11-01 12:22:10"
+}, {
+        "schedule_id": "2",
+        "userName" : "박영배"
+        "title" : "일정2",
+        "content" : "상담",
+        "createDate":"2024-11-01 12:22:10",
+        "updateDate":"2024-11-01 12:22:10"
+    },
+]
+}
+```
+3. 선택 일정 조회
+- 요청(request) : GET /api/scedules/{schedule_id}
+- 응답(response)
+```
+{
+    "schedule_id": "1",
+    "userName" : "고강혁"
+    "title" : "일정1",
+    "content" : "공부",
+    "createDate":"2024-11-01 12:22:10",
+    "updateDate":"2024-11-01 12:22:10"
+}
+```
+4. 일정 수정
+- 요청(request) : PUT /api/scedules/{schedule_id}
+```
+{
+    "schedule_id": "1",
+    "userName" : "고강혁"
+    "password" : "123123"
+    "title" : "일정1",
+    "content" : "공부",
+}
+```
+- 응답(response)
+```
+{
+  "schedule_id" : "1"
+}
+```
+5. 일정 삭제
+- 요청(request) : DELETE /api/scedules/{schedule_id}
+- 응답(response)
+```
+{
+  "schedule_id" : "1"
+}
+```
 *** 
 
 ERD
 ----------
 
-![image](https://github.com/user-attachments/assets/09617f27-30d9-4422-aaec-409db770ba62)
+![image](https://github.com/user-attachments/assets/11219dc8-c4de-4424-8f6e-9416d10918b1)
+
 
 
 
@@ -25,30 +103,32 @@ SQL
 ---
 
 ```
-CREATE TABLE `Posts` (
+CREATE TABLE `Schedule` (
 	`id`	int	NOT NULL,
-	`UserName`	VARCHAR	NOT NULL,
+	`UserName`	VARCHAR NOT NULL,
 	`Password`	VARCHAR	NOT NULL,
 	`Title`	VARCHAR	NOT NULL,
 	`Content`	VARCHAR	NULL,
 	`CreateDate`	TIMESTAMP	NULL,
 	`UpdateDate`	TIMESTAMP	NULL,
-	`id2`	VARCHAR(255)	NOT NULL
+	`id2`	int	NOT NULL
 );
 
 CREATE TABLE `User` (
 	`id`	int	NOT NULL,
 	`Name`	VARCHAR	NOT NULL,
-	`Email`	VARCHAR	NOT NULL,
+	`Email`	VARCHAR	NULL,
 	`Registration date`	TIMESTAMP	NULL,
 	`UpdateDate`	TIMESTAMP	NULL
 );
 
-ALTER TABLE `Posts` ADD CONSTRAINT `PK_POSTS` PRIMARY KEY (
+ALTER TABLE `Schedule` ADD CONSTRAINT `PK_SCHEDULE` PRIMARY KEY (
 	`id`
 );
 
 ALTER TABLE `User` ADD CONSTRAINT `PK_USER` PRIMARY KEY (
 	`id`
 );
+
+
 ```
